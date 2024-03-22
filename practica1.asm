@@ -1,7 +1,7 @@
 # Valeria Montaño, Daniel Rios
 .text
 main:
-	addi s0, zero, 5	# Numero de discos
+	addi s0, zero, 3	# Numero de discos
 	addi s1, s0, -1
 	
 	# Calculo de offset
@@ -23,7 +23,7 @@ endfor: nop
 imprimir_discos:
 	slti t0, s0, 1		
 	beq t0, zero, while
-	addi s0, zero, 15	
+	addi s0, zero, 3	
 	jalr ra
 	
 while:
@@ -38,7 +38,7 @@ hanoi:
 	slti t0, s0, 1			# Establece t0 a 1 si el número de discos es menor que 1 (discos < 1)
 	bne t0, zero, swap		# Si t0 es diferente de 0 (hay discos para mover), continúa; de lo contrario, salta a mover_disco.
 	
-	addi sp, sp, 4			# Incrementa el puntero del stack para hacer espacio
+	addi sp, sp, -4			# Incrementa el puntero del stack para hacer espacio
 	sw ra, 0(sp)			# Guarda el registro ra (dirección de retorno) en el stack
 
 	# Preparación para la primera llamada recursiva: hanoi(discos - 1, inicio, apoyo, destino).
@@ -70,7 +70,7 @@ hanoi:
 	# Restauración del estado y retorno de la función.
 	addi s0, s0, 1			# Incrementa el número de discos, preparándose para la siguiente operación
 	lw ra, 0(sp)			# Restaura el registro ra del stack
-	addi sp, sp, -4			# Decrementa el puntero del stack
+	addi sp, sp, 4			# Decrementa el puntero del stack
 	beq s0, s1, exit		# Si el número de discos es igual a s1, salta a 'exit'
 	jalr ra				# Retorna de la función
 	
